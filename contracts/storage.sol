@@ -8,9 +8,7 @@ contract RacerRegistry {
         uint256 bikeNumber;
     }
 
-    Rider[] public riders;
-
-    mapping(address => uint256) public racerriders;
+    mapping(address => Rider) public riders;
 
     function racerName(string memory _name) public {
         riders[msg.sender].name = _name;
