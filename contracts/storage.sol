@@ -78,7 +78,8 @@ function getRiderBikeNumber(address _riderAddress) public view returns (uint16) 
     return riders[_riderAddress].bikeNumber;
 }
 
-    // Function to get a list of all riders by name
+/// @notice Gets a list of the names of the riders
+/// @return Returns the names of the riders
 function getRiderNames() public view returns (string[] memory) {
     string[] memory names = new string[](ridersList.length);
     for (uint256 i = 0; i < ridersList.length; i++) {
