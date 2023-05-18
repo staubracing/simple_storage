@@ -2,9 +2,9 @@
 
 pragma solidity ^0.8.0;
 
-/// @title Storage contract
+/// @title RacerRegistry Contract
 /// @author Staub
-/// @notice A simple storage contract
+/// @notice A simple storage contract for managing racers
 
 contract RacerRegistry {
     struct Rider {
@@ -17,7 +17,11 @@ contract RacerRegistry {
 
     mapping(address => Rider) public riders;
 
-    // Function to set the name of the rider
+/// @notice Sets the name, bike number, and address of a rider
+/// @param _name The name of the rider
+/// @param _bikeNumber The bike number of the rider
+/// @param _riderAddress The address of the rider
+/// @dev Requires the name and bike number to be unique   
 function racerName(string memory _name, uint16 _bikeNumber, address _riderAddress) public {
     require(!nameExists(_name), "Name already exists");
     require(!bikeNumberExists(_bikeNumber, _riderAddress), "Bike number already exists"); // Check if bike number already exists in the list of riders 
@@ -25,14 +29,19 @@ function racerName(string memory _name, uint16 _bikeNumber, address _riderAddres
     riders[_riderAddress] = Rider(_name, _bikeNumber, _riderAddress); // Add rider to the mapping
 }
 
-    // Function to set the bike number of the rider
+/// @notice Sets the bike number and address of a rider
+/// @param _bikeNumber The bike number of the rider
+/// @param _riderAddress The address of the rider
+/// @dev Requires the bike number to be unique
 function racerBikeNumber(uint16 _bikeNumber, address _riderAddress) public {
     require(!bikeNumberExists(_bikeNumber, _riderAddress), "Bike number already exists"); // Check if bike number already exists in the list of riders 
     ridersList.push(Rider(riders[_riderAddress].name, _bikeNumber, _riderAddress)); // Add rider to the list
     riders[_riderAddress] = Rider(riders[_riderAddress].name, _bikeNumber, _riderAddress); // Add rider to the mapping
 }
 
-    // Function to check if the name already exists
+/// @notice Checks if the name already exists
+/// @param _name The name of the rider
+/// @return Returns true if the name already exists
 function nameExists(string memory _name) public view returns (bool) {
     for (uint256 i = 0; i < ridersList.length; i++) {
         if (keccak256(bytes(ridersList[i].name)) == keccak256(bytes(_name))) {
@@ -42,7 +51,10 @@ function nameExists(string memory _name) public view returns (bool) {
     return false;
 }
 
-    // Function to check if the bike number already exists
+/// @notice Checks if the bike number already exists
+/// @param _bikeNumber The bike number of the rider
+/// @param _riderAddress The address of the rider
+/// @return Returns true if the bike number already exists
 function bikeNumberExists(uint16 _bikeNumber, address _riderAddress) public view returns (bool) {
     for (uint256 i = 0; i < ridersList.length; i++) {
         if (ridersList[i].bikeNumber == _bikeNumber && ridersList[i].riderAddress != _riderAddress) {
@@ -52,12 +64,16 @@ function bikeNumberExists(uint16 _bikeNumber, address _riderAddress) public view
     return false;
 }
 
-    // Function to get the name of the rider
+/// @notice Gets the name of the rider
+/// @param _riderAddress The address of the rider
+/// @return Returns the name of the rider
 function getRiderName(address _riderAddress) public view returns (string memory) {
     return riders[_riderAddress].name;
 }
 
-    // Function to get the bike number of the rider
+/// @notice Gets the bike number of the rider
+/// @param _riderAddress The address of the rider
+/// @return Returns the bike number of the rider
 function getRiderBikeNumber(address _riderAddress) public view returns (uint16) {
     return riders[_riderAddress].bikeNumber;
 }
@@ -71,12 +87,15 @@ function getRiderNames() public view returns (string[] memory) {
     return names;
 }
 
-    // Function to get the address of the rider
+/// @notice Gets the address of the rider
+/// @param _riderAddress The address of the rider
+/// @return Returns the address of the rider
 function getRiderAddress(address _riderAddress) public view returns (address) {
     return riders[_riderAddress].riderAddress;
 }
 
-    // Function to get the total number of riders
+/// @notice Gets the count of riders
+/// @return Returns the count of riders
 function getRidersCount() public view returns (uint256) {
     return ridersList.length;
 }
