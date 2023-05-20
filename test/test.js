@@ -9,13 +9,18 @@ describe("RacerRegistry", function () {
 
     beforeEach(async function () {
         RacerRegistry = await ethers.getContractFactory("RacerRegistry");
-        RacerRegistryacerRegistry = await RacerRegistry.deploy();
+        RacerRegistry = await RacerRegistry.deploy();
         await RacerRegistry.deployed();
 
         name = "Joe Slow";
         bikeNumber = 715;
         riderAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
-         
-
     });
+
+    it("Should register a racer", async function () {
+        await RacerRegistry.racerName(name, bikeNumber, riderAddress);
+        expect(await RacerRegistry.racerCount()).to.equal(1);
+    }
+    );
+});
 
