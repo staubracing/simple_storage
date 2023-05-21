@@ -7,44 +7,44 @@ pragma solidity ^0.8.0;
 /// @notice A simple storage contract for managing racers
 
 contract RacerRegistry {
-    struct Rider {
+    struct Racer {
         string name;
         uint16 bikeNumber;
-        address riderAddress;
+        address racerAddress;
     }
 
-    Rider[] public ridersList;
+    Racer[] public racersList;
 
-    mapping(address => Rider) public riders;
+    mapping(address => Racer) public racers;
 
-/// @notice Sets the name, bike number, and address of a rider
-/// @param _name The name of the rider
-/// @param _bikeNumber The bike number of the rider
-/// @param _riderAddress The address of the rider
+/// @notice Sets the name, bike number, and address of a racer
+/// @param _name The name of the racer
+/// @param _bikeNumber The bike number of the racer
+/// @param _racerAddress The address of the racer
 /// @dev Requires the name and bike number to be unique   
-function racerName(string memory _name, uint16 _bikeNumber, address _riderAddress) public {
+function racerName(string memory _name, uint16 _bikeNumber, address _racerAddress) public {
     require(!nameExists(_name), "Name already exists");
-    require(!bikeNumberExists(_bikeNumber, _riderAddress), "Bike number already exists"); // Check if bike number already exists in the list of riders 
-    ridersList.push(Rider(_name, _bikeNumber, _riderAddress)); // Add rider to the list
-    riders[_riderAddress] = Rider(_name, _bikeNumber, _riderAddress); // Add rider to the mapping
+    require(!bikeNumberExists(_bikeNumber, _racerAddress), "Bike number already exists"); // Check if bike number already exists in the list of racers 
+    racersList.push(Racer(_name, _bikeNumber, _racerAddress)); // Add racer to the list
+    racers[_racerAddress] = Racer(_name, _bikeNumber, _racerAddress); // Add racer to the mapping
 }
 
-/// @notice Sets the bike number and address of a rider
-/// @param _bikeNumber The bike number of the rider
-/// @param _riderAddress The address of the rider
+/// @notice Sets the bike number and address of a racer
+/// @param _bikeNumber The bike number of the racer
+/// @param _racerAddress The address of the racer
 /// @dev Requires the bike number to be unique
-function racerBikeNumber(uint16 _bikeNumber, address _riderAddress) public {
-    require(!bikeNumberExists(_bikeNumber, _riderAddress), "Bike number already exists"); // Check if bike number already exists in the list of riders 
-    ridersList.push(Rider(riders[_riderAddress].name, _bikeNumber, _riderAddress)); // Add rider to the list
-    riders[_riderAddress] = Rider(riders[_riderAddress].name, _bikeNumber, _riderAddress); // Add rider to the mapping
+function racerBikeNumber(uint16 _bikeNumber, address _racerAddress) public {
+    require(!bikeNumberExists(_bikeNumber, _racerAddress), "Bike number already exists"); // Check if bike number already exists in the list of racers 
+    racersList.push(Racer(racers[_racerAddress].name, _bikeNumber, _racerAddress)); // Add racer to the list
+    racers[_racerAddress] = Racer(racers[_racerAddress].name, _bikeNumber, _racerAddress); // Add racer to the mapping
 }
 
 /// @notice Checks if the name already exists
-/// @param _name The name of the rider
+/// @param _name The name of the racer
 /// @return Returns true if the name already exists
 function nameExists(string memory _name) public view returns (bool) {
-    for (uint256 i = 0; i < ridersList.length; i++) {
-        if (keccak256(bytes(ridersList[i].name)) == keccak256(bytes(_name))) {
+    for (uint256 i = 0; i < racersList.length; i++) {
+        if (keccak256(bytes(racersList[i].name)) == keccak256(bytes(_name))) {
             return true;
         }
     }
@@ -52,53 +52,53 @@ function nameExists(string memory _name) public view returns (bool) {
 }
 
 /// @notice Checks if the bike number already exists
-/// @param _bikeNumber The bike number of the rider
-/// @param _riderAddress The address of the rider
+/// @param _bikeNumber The bike number of the racer
+/// @param _racerAddress The address of the racer
 /// @return Returns true if the bike number already exists
-function bikeNumberExists(uint16 _bikeNumber, address _riderAddress) public view returns (bool) {
-    for (uint256 i = 0; i < ridersList.length; i++) {
-        if (ridersList[i].bikeNumber == _bikeNumber && ridersList[i].riderAddress != _riderAddress) {
+function bikeNumberExists(uint16 _bikeNumber, address _racerAddress) public view returns (bool) {
+    for (uint256 i = 0; i < racersList.length; i++) {
+        if (racersList[i].bikeNumber == _bikeNumber && racersList[i].racerAddress != _racerAddress) {
             return true;
         }
     }
     return false;
 }
 
-/// @notice Gets the name of the rider
-/// @param _riderAddress The address of the rider
-/// @return Returns the name of the rider
-function getRiderName(address _riderAddress) public view returns (string memory) {
-    return riders[_riderAddress].name;
+/// @notice Gets the name of the racer
+/// @param _racerAddress The address of the racer
+/// @return Returns the name of the racer
+function getracerName(address _racerAddress) public view returns (string memory) {
+    return racers[_racerAddress].name;
 }
 
-/// @notice Gets the bike number of the rider
-/// @param _riderAddress The address of the rider
-/// @return Returns the bike number of the rider
-function getRiderBikeNumber(address _riderAddress) public view returns (uint16) {
-    return riders[_riderAddress].bikeNumber;
+/// @notice Gets the bike number of the racer
+/// @param _racerAddress The address of the racer
+/// @return Returns the bike number of the racer
+function getracerBikeNumber(address _racerAddress) public view returns (uint16) {
+    return racers[_racerAddress].bikeNumber;
 }
 
-/// @notice Gets a list of the names of the riders
-/// @return Returns the names of the riders
-function getRiderNames() public view returns (string[] memory) {
-    string[] memory names = new string[](ridersList.length);
-    for (uint256 i = 0; i < ridersList.length; i++) {
-        names[i] = ridersList[i].name;
+/// @notice Gets a list of the names of the racers
+/// @return Returns the names of the racers
+function getracerNames() public view returns (string[] memory) {
+    string[] memory names = new string[](racersList.length);
+    for (uint256 i = 0; i < racersList.length; i++) {
+        names[i] = racersList[i].name;
     }
     return names;
 }
 
-/// @notice Gets the address of the rider
-/// @param _riderAddress The address of the rider
-/// @return Returns the address of the rider
-function getRiderAddress(address _riderAddress) public view returns (address) {
-    return riders[_riderAddress].riderAddress;
+/// @notice Gets the address of the racer
+/// @param _racerAddress The address of the racer
+/// @return Returns the address of the racer
+function getracerAddress(address _racerAddress) public view returns (address) {
+    return racers[_racerAddress].racerAddress;
 }
 
-/// @notice Gets the count of riders
-/// @return Returns the count of riders
-function getRidersCount() public view returns (uint256) {
-    return ridersList.length;
+/// @notice Gets the count of racers
+/// @return Returns the count of racers
+function getracersCount() public view returns (uint256) {
+    return racersList.length;
 }
 
 }
