@@ -14,35 +14,52 @@ describe("RacerRegistry", function () {
         RacerRegistry = await ethers.getContractFactory("RacerRegistry");
         RacerRegistry = await RacerRegistry.deploy();
         await RacerRegistry.deployed();
-        
-
-        name = "Joe";
-        bikeNumber = 715;
-        racerAddress = await ethers.provider.getSigner(0).getAddress();// get address of first account in hardhat.config.js (accounts[0])
-
-        if(isFirstTime) {
-        console.log("RacerRegistry deployed to:", RacerRegistry.address);
-        console.log("racer address: ", racerAddress);
-        isFirstTime = false;
-        }
     });
 
+    /// @dev set variables
+    const testCases = [
+        {
+            name: "Joe",
+            bikeNumber: 715,
+            racerAddress: "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        },
+        {
+            name: "Chris",
+            bikeNumber: 106,
+            racerAddress: "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+        }
+    ];
 
-    it("Should register a racer", async function () {
-        await RacerRegistry.racerName(name, bikeNumber, racerAddress); // call function in contract RacerRegistry
-        const racer = await RacerRegistry.racers(racerAddress); // get racer by address from mapping in contract RacerRegistry
-        expect(racer.name).to.equal(name); // check if name is equal to name in contract
-        console.log("racer name: ", racer.name);
+    /// @dev loop through test cases
+    for (let i = 0; i < testCases.length; i++) {
+        const testCase = testCases[i];
+        const { name, bikeNumber, racerAddress} = testCase;
+
+        /// @dev print contract address and racer address to console only once
+        if (isFirstTime) {
+            console.log(`First name: ${testCases[0].name}`);
+            console.log(`First bike number: ${testCases[0].bikeNumber}`);
+            console.log(`First racer address: ${testCases[0].racerAddress}`);
+
+            console.log(`Second name: ${testCases[1].name}`);
+            console.log(`Second bike number: ${testCases[1].bikeNumber}`);
+            console.log(`Second racer address: ${testCases[1].racerAddress}`);
+            isFirstTime = false;
+        }
+
+        /// @dev test case
+        it(`should register racer ${name} with bike number ${bikeNumber} and racer address ${racerAddress}`, async function () {
+            await RacerRegistry.registerRacer(name, bikeNumber, racerAddress);
+            const racer = await RacerRegistry.racers(racerAddress);
+            expect(racer.name).to.equal(name);
+            expect(racer.bikeNumber).to.equal(bikeNumber);            
+        }
+        );
     }
-    );
-    it("Should register a racer Bike Number", async function () {
-        await RacerRegistry.racerName(name, bikeNumber, racerAddress); // call function in contract RacerRegistry
-        const racer = await RacerRegistry.racers(racerAddress); // get racer by address from mapping in contract RacerRegistry
-        expect(racer.bikeNumber).to.equal(bikeNumber); // check if bikeNumber is equal to bikeNumber in contract
-        console.log("racer bike number: ", racer.bikeNumber);
-    }
-    );
-
-
-  
 });
+
+
+
+
+
+

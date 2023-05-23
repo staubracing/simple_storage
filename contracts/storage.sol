@@ -22,9 +22,8 @@ contract RacerRegistry {
 /// @param _bikeNumber The bike number of the racer
 /// @param _racerAddress The address of the racer
 /// @dev Requires the name and bike number to be unique   
-function racerName(string memory _name, uint16 _bikeNumber, address _racerAddress) public {
+function registerRacer(string memory _name, uint16 _bikeNumber, address _racerAddress) public {
     require(!nameExists(_name), "Name already exists");
-    require(!bikeNumberExists(_bikeNumber, _racerAddress), "Bike number already exists"); // Check if bike number already exists in the list of racers 
     racersList.push(Racer(_name, _bikeNumber, _racerAddress)); // Add racer to the list
     racers[_racerAddress] = Racer(_name, _bikeNumber, _racerAddress); // Add racer to the mapping
 }
