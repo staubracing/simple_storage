@@ -5,14 +5,12 @@ const { expect } = require("chai");
 
 describe("RacerRegistry", function () {
     let RacerRegistry;
-    let name;
-    let bikeNumber;
-    let racerAddress;
     let isFirstTime = true;
 
-    beforeEach(async function () {
+    before(async function () {
         RacerRegistry = await ethers.getContractFactory("RacerRegistry");
         RacerRegistry = await RacerRegistry.deploy();
+        console.log(`RacerRegistry address: ${RacerRegistry.address}`);
         await RacerRegistry.deployed();
     });
 
@@ -50,12 +48,19 @@ describe("RacerRegistry", function () {
         /// @dev test case
         it(`should register racer ${name} with bike number ${bikeNumber} and racer address ${racerAddress}`, async function () {
             await RacerRegistry.registerRacer(name, bikeNumber, racerAddress);
-            const racer = await RacerRegistry.racers(racerAddress);
+            const racer = await RacerRegistry.racers(racerAddress);            
             expect(racer.name).to.equal(name);
-            expect(racer.bikeNumber).to.equal(bikeNumber);            
-        }
-        );
+            expect(racer.bikeNumber).to.equal(bikeNumber);
+            expect(racer.racerAddress).to.equal(racerAddress);            
+            console.log(`Racer name: ${racer.name}, Bike number: ${racer.bikeNumber}, Racer address: ${racer.racerAddress}`);
+            
+        
+        });
     }
+
+
+  
+
 });
 
 
