@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 
 /// @title RacerRegistry Contract
 /// @author Staub
-/// @notice A simple storage contract for managing racers
+/// @notice A simple storage contract for registering racers
 
 contract RacerRegistry {
     struct Racer {
@@ -48,7 +48,7 @@ function nameExists(string memory _name) public view returns (bool) {
 /// @return Returns true if the bike number already exists
 function bikeNumberExists(uint16 _bikeNumber, address _racerAddress) public view returns (bool) {
     for (uint256 i = 0; i < racersList.length; i++) {
-        if (racersList[i].bikeNumber == _bikeNumber && racersList[i].racerAddress != _racerAddress) {
+        if (racersList[i].bikeNumber == _bikeNumber && racersList[i].racerAddress == _racerAddress) {
             return true;
         }
     }
