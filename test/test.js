@@ -68,16 +68,12 @@ describe("RacerRegistry", function () {
             const racerBikeNumber = await RacerRegistry.getRacerBikeNumber(racerAddress);
             expect(racerBikeNumber).to.equal(bikeNumber);
             console.log(`Racer bike number: ${racerBikeNumber}`);
-        });
-                
-        
-    }
-           
-    
-    
+        }); // end it
 
-    
-});
+        
+    }// end for loop
+
+}); // end describe
 
         
     
