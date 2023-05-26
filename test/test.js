@@ -29,8 +29,8 @@ describe("RacerRegistry", function () {
 
     /// @dev loop through test cases
     for (let i = 0; i < testCases.length; i++) {
-        const testCase = testCases[i];
-        const { name, bikeNumber, racerAddress } = testCase;
+        const _testCase = testCases[i];
+        const { name, bikeNumber, racerAddress } = _testCase;
 
         /// @dev test case registerRacer
         it(`should register racer ${name} with bike number ${bikeNumber} and racer address ${racerAddress}`, async function () {
