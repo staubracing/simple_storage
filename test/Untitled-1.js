@@ -68,22 +68,17 @@
                 console.log(`Racer bike number: ${racerBikeNumber}`);
             });
 
-            /// @dev test case Get racer address
-            // it(`should return racer address ${racerAddress}`, async function () {
-            //     const racerAddress = await RacerRegistry.getRacerAddress(name);
-            //     expect(racerAddress).to.equal(racerAddress);
-            //     console.log(`Racer address: ${racerAddress}`);
-            // });
-
-            /// @dev test case Get racer count
             if (i === testCases.length - 1) {
-                it(`should return racer count 2`, async function () {
+                it(`should return racer count 1`, async function () {
                     const racerCount = await RacerRegistry.getRacersCount();
-                    expect(racerCount).to.equal(2);
+                    expect(racerCount).to.equal(1);
                     console.log(`Racer count: ${racerCount}`);
                 });
-            }
+            } else {
+                it(`should return racer count 2`, async function () {
+                const racerCount = await RacerRegistry.getRacersCount();
+                expect(racerCount).to.equal(2);
+                console.log(`Racer count: ${racerCount}`);
+            });
         }
-            expect(racerCount).to.equal(2);
-            console.log(`Racer count: ${racerCount}`);
         }

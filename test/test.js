@@ -5,12 +5,11 @@ const { expect } = require("chai");
 
 describe("RacerRegistry", function () {
     let RacerRegistry;
-    let isFirstTime = true;
-
+    
     before(async function () {
         RacerRegistry = await ethers.getContractFactory("RacerRegistry");
         RacerRegistry = await RacerRegistry.deploy();
-        console.log(`RacerRegistry address: ${RacerRegistry.address}`);
+        console.log(`RacerRegistry contract Address: ${RacerRegistry.address}`);
         await RacerRegistry.deployed();
     });
 
@@ -32,18 +31,6 @@ describe("RacerRegistry", function () {
     for (let i = 0; i < testCases.length; i++) {
         const testCase = testCases[i];
         const { name, bikeNumber, racerAddress } = testCase;
-
-        /// @dev print contract address and racer address to console only once
-        if (isFirstTime) {
-            console.log(`First name: ${testCases[0].name}`);
-            console.log(`First bike number: ${testCases[0].bikeNumber}`);
-            console.log(`First racer address: ${testCases[0].racerAddress}`);
-
-            console.log(`Second name: ${testCases[1].name}`);
-            console.log(`Second bike number: ${testCases[1].bikeNumber}`);
-            console.log(`Second racer address: ${testCases[1].racerAddress}`);
-            isFirstTime = false;
-        }
 
         /// @dev test case registerRacer
         it(`should register racer ${name} with bike number ${bikeNumber} and racer address ${racerAddress}`, async function () {
@@ -82,19 +69,43 @@ describe("RacerRegistry", function () {
             expect(racerBikeNumber).to.equal(bikeNumber);
             console.log(`Racer bike number: ${racerBikeNumber}`);
         });
-
-        /// @dev test case Get racer address
-
-
-        /// @dev test case Get racer count
-        it(`should return racer count 2`, async function () {
+                
+        /// @dev test case Get racer count 2(if statement trying to get racer count 1 for first loop and 2 for second loop)
+        if (i === testCases.length - 1) {
+            it(`should return racer count 1`, async function () {
+                const racerCount = await RacerRegistry.getRacersCount();
+                expect(racerCount).to.equal(1);
+                console.log(`Racer count: ${racerCount}`);
+            });
+        } else {
+            it(`should return racer count 2`, async function () {
             const racerCount = await RacerRegistry.getRacersCount();
             expect(racerCount).to.equal(2);
             console.log(`Racer count: ${racerCount}`);
-        }
-        );
+        });
+    }        
     }
+    
+
+    
 });
+
+        
+    
+
+
+    
+    
+    
+
+
+
+
+
+
+
+
+
 
 
 
