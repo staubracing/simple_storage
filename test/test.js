@@ -70,20 +70,9 @@ describe("RacerRegistry", function () {
             console.log(`Racer bike number: ${racerBikeNumber}`);
         });
                 
-        /// @dev test case Get racer count 2(if statement trying to get racer count 1 for first loop and 2 for second loop)
-        if (i === testCases.length - 1) { //should this bet the array length -1 or just the array length?
-            it(`should return racer count 1`, async function () {
-                const racerCount = await RacerRegistry.getRacersCount();
-                expect(racerCount).to.equal(1);
-                console.log(`Racer count: ${racerCount}`);
-            });
-        }         
-            it(`should return racer count 2`, async function () {
-            const racerCount = await RacerRegistry.getRacersCount();
-            expect(racerCount).to.equal(2);
-            console.log(`Racer count: ${racerCount}`);
-        });
-    }        
+        
+    }
+           
     
     
 
