@@ -68,6 +68,19 @@ describe("RacerRegistry", function () {
             const racerBikeNumber = await RacerRegistry.getRacerBikeNumber(racerAddress);
             expect(racerBikeNumber).to.equal(bikeNumber);
             console.log(`Racer bike number: ${racerBikeNumber}`);
+        });
+
+        /// @dev test case Get racerNames
+        it(`should return racer names`, async function () {
+            const racerNames = await RacerRegistry.getRacerNames();
+            expect(racerNames).to.include(name);
+            console.log(`Racer names: ${racerNames}`);
+        }); // end it
+
+        /// @dev test case Get RacersCount
+        it(`should return racers count`, async function () {
+            const racersCount = await RacerRegistry.getRacersCount();
+            console.log(`Racers count: ${racersCount}`);
         }); // end it
 
         
